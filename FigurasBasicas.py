@@ -7,3 +7,5 @@ cmds.polyCone()# Crear un cono
 cmds.polyTorus()# Crear un toroide
 cmds.polyPlane()# Crear un Plano
 cmds.polyDisc()# Crear un disco
+
+print ("Hola mundo")# Imprimir en consola 
