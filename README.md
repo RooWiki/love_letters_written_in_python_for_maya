@@ -13,3 +13,4 @@ Maya Comandos: https://help.autodesk.com/view/MAYAUL/2023/ENU/index.html?context
 [![wqq2.png](https://i.postimg.cc/8CCPKVMG/wqq2.png)](https://postimg.cc/QFR3CwfY)
 [![Cubo-Esfera.png](https://i.postimg.cc/dtFHJwqB/Cubo-Esfera.png)](https://postimg.cc/HjS42G8c)
 [![rigg.png](https://i.postimg.cc/VLXYN3Jg/rigg.png)](https://postimg.cc/qzMfbDX6)
+[![ventanas.png](https://i.postimg.cc/vBfBh7wq/ventanas.png)](https://postimg.cc/8JkNP65M)
