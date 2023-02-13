@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+from functools import partial
 
 # INTERFACE
 
@@ -30,20 +31,41 @@ def create_window():
 def create_customUI():
     cmds.button("rigg_button", label="Rigg", w = window_w, h=40, command=rigg)
    
-    cmds.frameLayout("cuntrol_scale_frame", label="Control Scale", w=window_w, parent="main_colum", cll=True, cl=True, bgc=(.250,.160,.255))
+    cmds.frameLayout("cuntrol_scale_frame", label="Control Scale", w=window_w, parent="main_colum", cl=True, bgc=(.255,.0,.255))
     cmds.rowLayout("control_scale_row", nc=3, w=window_w)
    
-    cmds.floatField(precision=2, w=window_w/3)
-    cmds.button("samll_burron", label="Samll", w=window_w/3)
-    cmds.button("bugg_button", label="Big", w=window_w/3)
+    cmds.floatField("scale_floatField", precision=2, w=window_w/3, value=0.2)
+    cmds.button("samll_burron", label="Small", w=window_w/3, command=partial(scale_control, "small"))
+    cmds.button("big_button", label="Big", w=window_w/3, command=partial(scale_control, "big"))
    
-    cmds.frameLayout("control_color_frame", label="Control Color", w=window_w, parent="main_colum", cll=True, cl=True, bgc=(0.5,0.5,0.0))
-    cmds.colorIndexSliderGrp(max=60, v=50)
-    cmds.button("set_color", label="Set Color", h=30)
-   
+    cmds.frameLayout("control_color_frame", label="Control Color", w=window_w, parent="main_colum", cl=True, bgc=(0.255,0.0,0.255))
+    cmds.colorIndexSliderGrp("color_index_slider", max=31, v=50, changeCommand=color_control)
+    cmds.button("set_color", label="Set Color", h=30, command=color_control)
    
    
 # FUNCTIONS
+
+  
+def color_control(*args):
+    color_index = cmds.colorIndexSliderGrp("color_index_slider", query=True, value=True)
+    selection = cmds.ls(selection=True)
+    
+    for control in selection:
+        shape = cmds.listRelatives(control, children=True)[0] 
+        cmds.setAttr(shape+".overrideEnabled",1)
+        cmds.setAttr(shape+".overrideColor",color_index-1)
+
+def scale_control(mode, *args):
+    scale_factor = cmds.floatField("scale_floatField", query=True, value=True)
+    selection = cmds.ls(selection=True)
+    
+    for control in selection:
+        if mode == "small": 
+            cmds.scale(1.0-scale_factor, 1.0-scale_factor, 1.0-scale_factor, control+".cv[0:]")
+        else:
+            cmds.scale(1.0+scale_factor, 1.0+scale_factor, 1.0+scale_factor, control+".cv[0:]")
+
+  
 def rigg(*args):
 
     selection = cmds.ls(selection = True)
@@ -100,6 +122,7 @@ def rigg(*args):
            
         for j in range(len(all_joint)-2):
             cmds.parent(grp_list[j+1], control_list[j])
+        cmds.select(control_list)
    
    
    
